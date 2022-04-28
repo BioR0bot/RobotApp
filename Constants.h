@@ -1,4 +1,11 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
-#endif // CONSTANTS_H
+#include <opencv2/core.hpp>
+
+class Constants
+{
+public:
+    static const cv::Size mStereoFrameSize;
+};
+
+

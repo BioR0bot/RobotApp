@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += object_parallel_to_source\
           c++17\
+          console\
 
 QMAKE_CXXFLAGS += -std=c++17\
 
@@ -54,7 +55,9 @@ SOURCES += \
     AppDataManager.cpp \
     DatachannelThread.cpp \
     GeneralWidget.cpp \
-    SettingsWidget.cpp
+    SettingsWidget.cpp \
+    FramesCaptureThread.cpp \
+    Constants.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -64,7 +67,9 @@ HEADERS += \
     GeneralWidget.h \
     SignalEmitter.h \
     SettingsWidget.h \
-    BasicWidget.h
+    BasicWidget.h \
+    FramesCaptureThread.h \
+    Constants.h
 
 FORMS += \
         mainwindow.ui \

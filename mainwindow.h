@@ -6,6 +6,7 @@
 
 class AppDataManager;
 class DatachannelThread;
+class FramesCaptureThread;
 class QTimer;
 
 class SignalEmitter;
@@ -28,13 +29,14 @@ private:
 private:
     Ui::MainWindow mUi;
 
-    std::shared_ptr<AppDataManager>    mAppDataManager;
-    std::shared_ptr<DatachannelThread> mDatachannelThread;
-    std::shared_ptr<QTimer>            mTimer;
+    std::shared_ptr<AppDataManager>      mAppDataManager;
+    std::shared_ptr<DatachannelThread>   mDatachannelThread;
+    std::shared_ptr<FramesCaptureThread> mFramesCaptureThread;
+    std::shared_ptr<QTimer>              mTimer;
 
-    std::shared_ptr<SignalEmitter>     mSignalEmitter;
-    std::shared_ptr<GeneralWidget>     mGeneralWidget;
-    std::shared_ptr<SettingsWidget>    mSettingsWidget;
-    QWidget*                           mLastAddedWidget;
+    std::shared_ptr<SignalEmitter>       mSignalEmitter;
+    std::shared_ptr<GeneralWidget>       mGeneralWidget;
+    std::shared_ptr<SettingsWidget>      mSettingsWidget;
+    QWidget*                             mLastAddedWidget;
 };
 

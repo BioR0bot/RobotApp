@@ -3,6 +3,7 @@
 #include <qtimer.h>
 #include "AppDataManager.h"
 #include "DatachannelThread.h"
+#include "FramesCaptureThread.h"
 #include "GeneralWidget.h"
 #include "SettingsWidget.h"
 #include "SignalEmitter.h"
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mAppDataManager = std::make_shared<AppDataManager>();
     mDatachannelThread = std::make_shared<DatachannelThread>(mAppDataManager);
+    mFramesCaptureThread = std::make_shared<FramesCaptureThread>(mAppDataManager);
     mTimer = std::make_shared<QTimer>(this);
     mSignalEmitter = std::make_shared<SignalEmitter>();
 
@@ -24,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mSettingsWidget = std::make_shared<SettingsWidget>(mSignalEmitter);
 
     mDatachannelThread->Start();
+    mFramesCaptureThread->Start();
 
     connect(mSignalEmitter.get(), &SignalEmitter::SetGeneralWidgetSignal, this, &MainWindow::SetGeneralWidget);
     connect(mSignalEmitter.get(), &SignalEmitter::SetSettingsWidgetSignal, this, &MainWindow::SetSettingsWidget);

@@ -8,7 +8,7 @@ class BasicWidget : public QWidget
 
 public:
     BasicWidget(){mIsActive = false;}
-    virtual void SetActive(bool isActive){ mIsActive = isActive; }
+    virtual void SetActive(bool val){ mIsActive = val; }
     bool IsActive() {return mIsActive;}
 
 private:
