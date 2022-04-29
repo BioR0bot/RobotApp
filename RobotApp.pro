@@ -42,6 +42,7 @@ LIBS +=\
     -lopencv_imgproc\
     -lopencv_videoio\
     -lopencv_highgui\
+    -lopencv_imgcodecs\
     -L"$$PWD/ThirdParty/build/libdatachannel/lib"\
     -ldatachannel\
     -L"$$PWD/ThirdParty/build/qautostart/lib"\

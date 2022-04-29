@@ -4,6 +4,10 @@
 #include <rtc/rtc.hpp>
 #include <nlohmann/json.hpp>
 
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
+
 DatachannelThread::DatachannelThread(std::shared_ptr<AppDataManager>& appDataManager) :
     mIsStopped(true),
     mAppDataManager(appDataManager),
@@ -168,7 +172,34 @@ void DatachannelThread::ThreadFunction()
 
             try
             {
-                dcMapIt->second->send(std::to_string(testVal));
+                size_t buffAmount = dcMapIt->second->bufferedAmount();
+                size_t maxMessageSize = dcMapIt->second->maxMessageSize();
+
+                if(buffAmount == 0)
+                {
+//                    cv::Mat frame;
+//                    mAppDataManager->GetSurveillanceFrame(frame);
+
+//                    cv::resize(frame, frame, cv::Size(320, 240));
+//                    auto start = std::chrono::steady_clock::now();
+
+//                    std::vector<int> imencodeParams;
+//                    imencodeParams.push_back(cv::IMWRITE_JPEG_QUALITY);
+//                    imencodeParams.push_back(75); // JPG quality
+//                    std::vector<unsigned char> jpegBuf;
+//                    cv::imencode(".jpg", frame, jpegBuf);
+
+//                    auto end = std::chrono::steady_clock::now();
+//                    //std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+
+//                    if(jpegBuf.size() < maxMessageSize)
+//                    {
+//                        dcMapIt->second->send((std::byte*)(jpegBuf.data()), jpegBuf.size());
+//                    }
+
+                    dcMapIt->second->send(std::to_string(testVal));
+                }
+
             }
             catch(...)
             {

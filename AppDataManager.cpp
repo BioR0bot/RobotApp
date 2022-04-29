@@ -22,3 +22,9 @@ void AppDataManager::GetStereoFrames(cv::Mat &left, cv::Mat &right)
     mStereoFrameLeft.copyTo(left);
     mStereoFrameRight.copyTo(right);
 }
+
+void AppDataManager::GetSurveillanceFrame(cv::Mat &frame)
+{
+     std::lock_guard<std::mutex> lock(mStereoMutex);
+     mStereoFrameLeft.copyTo(frame);
+}

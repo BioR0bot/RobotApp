@@ -10,6 +10,7 @@ public:
     AppDataManager();
     void SetStereoFrames(const cv::Mat& left, const cv::Mat& right);
     void GetStereoFrames(cv::Mat& left, cv::Mat& right);
+    void GetSurveillanceFrame(cv::Mat& frame);
 
 public:
     const std::string mLocalId;
