@@ -11,4 +11,5 @@ public:
 signals:
     void SetGeneralWidgetSignal();
     void SetSettingsWidgetSignal();
+    void SetmCamCalibWidgetSignal();
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>445</width>
+    <height>301</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(238, 238, 236);</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0,1">
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -46,15 +46,30 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnSettings">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(186, 189, 182);
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="10,10">
+       <item>
+        <widget class="QPushButton" name="btnCamCalib">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(186, 189, 182);
 color: rgb(0, 0, 0);</string>
-       </property>
-       <property name="text">
-        <string>Settings</string>
-       </property>
-      </widget>
+         </property>
+         <property name="text">
+          <string>Cameras calibration</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSettings">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(186, 189, 182);
+color: rgb(0, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>Settings</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">

@@ -11,6 +11,7 @@ GeneralWidget::GeneralWidget(std::shared_ptr<AppDataManager> &appDataManager,
     mUi.setupUi(this);
 
     connect(mUi.btnSettings, &QPushButton::released, mSignalEmitter.get(), &SignalEmitter::SetSettingsWidgetSignal);
+    connect(mUi.btnCamCalib, &QPushButton::released, mSignalEmitter.get(), &SignalEmitter::SetmCamCalibWidgetSignal);
 }
 
 void GeneralWidget::SetActive(bool val)

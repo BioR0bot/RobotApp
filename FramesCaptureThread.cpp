@@ -35,12 +35,12 @@ void FramesCaptureThread::Stop()
 void FramesCaptureThread::ThreadFunction()
 {
     cv::VideoCapture leftCam;
-    bool leftCamOpened = leftCam.open(0, cv::CAP_V4L2);
+    bool leftCamOpened = leftCam.open(1, cv::CAP_V4L2);
     leftCam.set(cv::CAP_PROP_FRAME_WIDTH, Constants::mStereoFrameSize.width);
     leftCam.set(cv::CAP_PROP_FRAME_HEIGHT, Constants::mStereoFrameSize.height);
 
     cv::VideoCapture rightCam;
-    bool rightCamOpened = rightCam.open(1, cv::CAP_V4L2);
+    bool rightCamOpened = rightCam.open(0, cv::CAP_V4L2);
     rightCam.set(cv::CAP_PROP_FRAME_WIDTH, Constants::mStereoFrameSize.width);
     rightCam.set(cv::CAP_PROP_FRAME_HEIGHT, Constants::mStereoFrameSize.height);
 

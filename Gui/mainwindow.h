@@ -12,6 +12,8 @@ class QTimer;
 class SignalEmitter;
 class GeneralWidget;
 class SettingsWidget;
+class CamCalibWidget;
+
 
 class MainWindow : public QMainWindow
 {
@@ -25,6 +27,8 @@ private:
     void UpdateWidgets();
     void SetGeneralWidget();
     void SetSettingsWidget();
+    void SetCamCalibWidget();
+    void SetWidget(QWidget* widget);
 
 private:
     Ui::MainWindow mUi;
@@ -37,6 +41,7 @@ private:
     std::shared_ptr<SignalEmitter>       mSignalEmitter;
     std::shared_ptr<GeneralWidget>       mGeneralWidget;
     std::shared_ptr<SettingsWidget>      mSettingsWidget;
+    std::shared_ptr<CamCalibWidget>      mCamCalibWidget;
     QWidget*                             mLastAddedWidget;
 };
 

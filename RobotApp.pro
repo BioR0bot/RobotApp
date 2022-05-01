@@ -25,7 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += object_parallel_to_source\
           c++17\
-          console\
+#          console\
 
 QMAKE_CXXFLAGS += -std=c++17\
 
@@ -52,27 +52,34 @@ LIBS +=\
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
     AppDataManager.cpp \
     DatachannelThread.cpp \
-    GeneralWidget.cpp \
-    SettingsWidget.cpp \
     FramesCaptureThread.cpp \
-    Constants.cpp
+    Constants.cpp \
+    Gui/GeneralWidget.cpp \
+    Gui/mainwindow.cpp \
+    Gui/SettingsWidget.cpp \
+    Gui/CamCalibWidget.cpp \
+    Utils.cpp \
+    Gui/AspectRatioPixmapLabel.cpp
 
 HEADERS += \
         mainwindow.h \
     AppDataManager.h \
     DatachannelThread.h \
     Utils.h \
-    GeneralWidget.h \
     SignalEmitter.h \
-    SettingsWidget.h \
-    BasicWidget.h \
     FramesCaptureThread.h \
-    Constants.h
+    Constants.h \
+    Gui/BasicWidget.h \
+    Gui/GeneralWidget.h \
+    Gui/mainwindow.h \
+    Gui/SettingsWidget.h \
+    Gui/CamCalibWidget.h \
+    Gui/AspectRatioPixmapLabel.h
 
 FORMS += \
-        mainwindow.ui \
-    general.ui \
-    settings.ui
+    Gui/general.ui \
+    Gui/mainwindow.ui \
+    Gui/settings.ui \
+    Gui/camcalib.ui

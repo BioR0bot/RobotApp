@@ -6,6 +6,7 @@
 #include "FramesCaptureThread.h"
 #include "GeneralWidget.h"
 #include "SettingsWidget.h"
+#include "CamCalibWidget.h"
 #include "SignalEmitter.h"
 
 #include <iostream>
@@ -24,12 +25,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mGeneralWidget = std::make_shared<GeneralWidget>(mAppDataManager, mSignalEmitter);
     mSettingsWidget = std::make_shared<SettingsWidget>(mSignalEmitter);
+    mCamCalibWidget = std::make_shared<CamCalibWidget>(mAppDataManager, mSignalEmitter);
 
     mDatachannelThread->Start();
     mFramesCaptureThread->Start();
 
     connect(mSignalEmitter.get(), &SignalEmitter::SetGeneralWidgetSignal, this, &MainWindow::SetGeneralWidget);
     connect(mSignalEmitter.get(), &SignalEmitter::SetSettingsWidgetSignal, this, &MainWindow::SetSettingsWidget);
+    connect(mSignalEmitter.get(), &SignalEmitter::SetmCamCalibWidgetSignal, this, &MainWindow::SetCamCalibWidget);
 
     SetGeneralWidget();
 
@@ -42,18 +45,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::SetGeneralWidget()
 {
-    if(mLastAddedWidget)
-    {
-        mUi.verticalLayout->removeWidget(mLastAddedWidget);
-        ((BasicWidget*)mLastAddedWidget)->SetActive(false);
-    }
-
-    mUi.verticalLayout->insertWidget(0, mGeneralWidget.get());
-    mGeneralWidget->SetActive(true);
-    mLastAddedWidget = mGeneralWidget.get();
+    SetWidget(mGeneralWidget.get());
 }
 
 void MainWindow::SetSettingsWidget()
+{
+    SetWidget(mSettingsWidget.get());
+}
+
+void MainWindow::SetCamCalibWidget()
+{
+    SetWidget(mCamCalibWidget.get());
+}
+
+void MainWindow::SetWidget(QWidget *widget)
 {
     if(mLastAddedWidget)
     {
@@ -61,9 +66,9 @@ void MainWindow::SetSettingsWidget()
         ((BasicWidget*)mLastAddedWidget)->SetActive(false);
     }
 
-    mUi.verticalLayout->insertWidget(0, mSettingsWidget.get());
-    mSettingsWidget->SetActive(true);
-    mLastAddedWidget = mSettingsWidget.get();
+    mUi.verticalLayout->insertWidget(0, widget);
+    ((BasicWidget*)widget)->SetActive(true);
+    mLastAddedWidget = widget;
 }
 
 void MainWindow::UpdateWidgets()
@@ -77,6 +82,10 @@ void MainWindow::UpdateWidgets()
     else if(mSettingsWidget->IsActive())
     {
         mSettingsWidget->ProcessData();
+    }
+    else if(mCamCalibWidget->IsActive())
+    {
+        mCamCalibWidget->ProcessData();
     }
 
 
