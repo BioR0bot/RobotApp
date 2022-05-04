@@ -152,10 +152,12 @@ RTC_EXPORT void *rtcGetUserPointer(int i);
 typedef struct {
 	const char **iceServers;
 	int iceServersCount;
+	const char *proxyServer; // libnice only
 	const char *bindAddress; // libjuice only, NULL means any
 	rtcCertificateType certificateType;
 	rtcTransportPolicy iceTransportPolicy;
-	bool enableIceTcp;
+	bool enableIceTcp;    // libnice only
+	bool enableIceUdpMux; // libjuice only
 	bool disableAutoNegotiation;
 	uint16_t portRangeBegin; // 0 means automatic
 	uint16_t portRangeEnd;   // 0 means automatic
@@ -188,6 +190,8 @@ RTC_EXPORT int rtcGetRemoteAddress(int pc, char *buffer, int size);
 RTC_EXPORT int rtcGetSelectedCandidatePair(int pc, char *local, int localSize, char *remote,
                                            int remoteSize);
 
+RTC_EXPORT int rtcGetMaxDataChannelStream(int pc);
+
 // DataChannel, Track, and WebSocket common API
 
 RTC_EXPORT int rtcSetOpenCallback(int id, rtcOpenCallbackFunc cb);
@@ -195,6 +199,7 @@ RTC_EXPORT int rtcSetClosedCallback(int id, rtcClosedCallbackFunc cb);
 RTC_EXPORT int rtcSetErrorCallback(int id, rtcErrorCallbackFunc cb);
 RTC_EXPORT int rtcSetMessageCallback(int id, rtcMessageCallbackFunc cb);
 RTC_EXPORT int rtcSendMessage(int id, const char *data, int size);
+RTC_EXPORT int rtcClose(int id);
 RTC_EXPORT bool rtcIsOpen(int id);
 RTC_EXPORT bool rtcIsClosed(int id);
 
@@ -255,6 +260,8 @@ RTC_EXPORT int rtcAddTrackEx(int pc, const rtcTrackInit *init);      // returns 
 RTC_EXPORT int rtcDeleteTrack(int tr);
 
 RTC_EXPORT int rtcGetTrackDescription(int tr, char *buffer, int size);
+RTC_EXPORT int rtcGetTrackMid(int tr, char *buffer, int size);
+RTC_EXPORT int rtcGetTrackDirection(int tr, rtcDirection *direction);
 
 #if RTC_ENABLE_MEDIA
 
@@ -360,6 +367,9 @@ int rtcSetSsrcForType(const char *mediaType, const char *sdp, char *buffer, cons
 
 typedef struct {
 	bool disableTlsVerification; // if true, don't verify the TLS certificate
+	const char *proxyServer;     // unsupported for now
+	const char **protocols;
+	int protocolsCount;
 } rtcWsConfiguration;
 
 RTC_EXPORT int rtcCreateWebSocket(const char *url); // returns ws id

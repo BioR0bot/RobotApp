@@ -32,7 +32,7 @@ namespace rtc {
 const string DEFAULT_OPUS_AUDIO_PROFILE =
     "minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1";
 
-// Use Constrained Baseline profile Level 4.2 (necessary for Firefox)
+// Use Constrained Baseline profile Level 3.1 (necessary for Firefox)
 // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/WebRTC_codecs#Supported_video_codecs
 // TODO: Should be 42E0 but 42C0 appears to be more compatible. Investigate this.
 const string DEFAULT_H264_VIDEO_PROFILE =
@@ -81,8 +81,8 @@ public:
 	void endCandidates();
 
 	operator string() const;
-	string generateSdp(string_view eol) const;
-	string generateApplicationSdp(string_view eol) const;
+	string generateSdp(string_view eol = "\r\n") const;
+	string generateApplicationSdp(string_view eol = "\r\n") const;
 
 	class RTC_CPP_EXPORT Entry {
 	public:
@@ -91,8 +91,12 @@ public:
 		virtual string type() const { return mType; }
 		virtual string description() const { return mDescription; }
 		virtual string mid() const { return mMid; }
+
 		Direction direction() const { return mDirection; }
 		void setDirection(Direction dir);
+
+		bool isRemoved() const { return mIsRemoved; }
+		void markRemoved();
 
 		std::vector<string> attributes() const;
 		void addAttribute(string attr);
@@ -117,7 +121,8 @@ public:
 		void removeExtMap(int id);
 
 		operator string() const;
-		string generateSdp(string_view eol, string_view addr, string_view port) const;
+		string generateSdp(string_view eol = "\r\n", string_view addr = "0.0.0.0",
+		                   uint16_t port = 9) const;
 
 		virtual void parseSdpLine(string_view line);
 
@@ -143,11 +148,13 @@ public:
 		string mDescription;
 		string mMid;
 		Direction mDirection;
+		bool mIsRemoved;
 	};
 
 	struct RTC_CPP_EXPORT Application : public Entry {
 	public:
 		Application(string mid = "data");
+		Application(const string &mline, string mid);
 		virtual ~Application() = default;
 
 		string description() const override;

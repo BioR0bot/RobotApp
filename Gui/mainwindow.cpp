@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     SetGeneralWidget();
 
-    mTimer->singleShot(10, this, &MainWindow::UpdateWidgets);
+    mTimer->singleShot(20, this, &MainWindow::UpdateWidgets);
 }
 
 MainWindow::~MainWindow()
@@ -89,5 +89,5 @@ void MainWindow::UpdateWidgets()
     }
 
 
-    mTimer->singleShot(10, this, &MainWindow::UpdateWidgets);
+    mTimer->singleShot(20, this, &MainWindow::UpdateWidgets);
 }

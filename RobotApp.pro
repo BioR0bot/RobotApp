@@ -25,7 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += object_parallel_to_source\
           c++17\
-#          console\
+          console\
 
 QMAKE_CXXFLAGS += -std=c++17\
 

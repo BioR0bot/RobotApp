@@ -58,6 +58,7 @@ void DatachannelThread::ThreadFunction()
     rtc::Configuration peerConnectConfig;
     const rtc::IceServer turnServer("handsome.edgeconsult.me", 3478, "guest", "somepassword");
     peerConnectConfig.iceServers.emplace_back(turnServer);
+    peerConnectConfig.maxMessageSize = 30000;
 
     std::function<void(rtc::LogLevel level, std::string message)> logCallback =
             [](rtc::LogLevel level, std::string message) { std::cout << message << std::endl; };
@@ -116,6 +117,11 @@ void DatachannelThread::ThreadFunction()
         }
         else if(type == "offer")
         {
+            rtc::SctpSettings settings = {};
+           // settings.sendBufferSize = 262144; // 256 KB, default is 1MB
+            settings.sendBufferSize = 30000; // 256 KB, default is 1MB
+            rtc::SetSctpSettings(std::move(settings));
+
             pc = CreatePeerConnection(peerConnectConfig, ws, id, mAppDataManager, peerConnectionMap, dataChannelMap);
         }
         else
@@ -177,27 +183,34 @@ void DatachannelThread::ThreadFunction()
 
                 if(buffAmount == 0)
                 {
-//                    cv::Mat frame;
-//                    mAppDataManager->GetSurveillanceFrame(frame);
+                    cv::Mat frame;
+                    mAppDataManager->GetSurveillanceFrame(frame);
 
-//                    cv::resize(frame, frame, cv::Size(320, 240));
-//                    auto start = std::chrono::steady_clock::now();
+                    cv::resize(frame, frame, cv::Size(0, 0), 0.5, 0.5);
 
-//                    std::vector<int> imencodeParams;
-//                    imencodeParams.push_back(cv::IMWRITE_JPEG_QUALITY);
-//                    imencodeParams.push_back(75); // JPG quality
-//                    std::vector<unsigned char> jpegBuf;
-//                    cv::imencode(".jpg", frame, jpegBuf);
+                    auto start = std::chrono::steady_clock::now();
 
-//                    auto end = std::chrono::steady_clock::now();
-//                    //std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+                    std::vector<int> imencodeParams;
+                    imencodeParams.push_back(cv::IMWRITE_JPEG_QUALITY);
+                    imencodeParams.push_back(75); // JPG quality
+                    std::vector<unsigned char> jpegBuf;
+                    cv::imencode(".jpg", frame, jpegBuf);
 
-//                    if(jpegBuf.size() < maxMessageSize)
-//                    {
-//                        dcMapIt->second->send((std::byte*)(jpegBuf.data()), jpegBuf.size());
-//                    }
+                    auto end = std::chrono::steady_clock::now();
+                    //std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
-                    dcMapIt->second->send(std::to_string(testVal));
+
+                    if(jpegBuf.size() < maxMessageSize)
+                    {
+                        dcMapIt->second->send((std::byte*)(jpegBuf.data()), jpegBuf.size());
+                    }
+                    else
+                    {
+                        std::cout <<  jpegBuf.size() << std::endl;
+                    }
+
+
+                    //dcMapIt->second->send(std::to_string(testVal));
                 }
 
             }
@@ -207,7 +220,7 @@ void DatachannelThread::ThreadFunction()
                 return;
             }
 
-            testVal++;
+
         }
         else
         {
@@ -220,6 +233,7 @@ void DatachannelThread::ThreadFunction()
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(millisecStep));
+        testVal++;
     }
 }
 
